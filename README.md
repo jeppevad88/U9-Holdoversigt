@@ -37,3 +37,6 @@ Når funktionen er live, skal denne adresse svare med JSON:
 
 ## Bemærkning om spillerunder
 Hvis DanskHåndbolds iCal-data indeholder et rundenummer i eventets tekst, bruges det. Ellers grupperes kampe automatisk efter kalenderuge som en stabil fallback. Rundens viste nummer bliver derefter 1, 2, 3 osv. efter den kronologiske rækkefølge.
+
+### Rundevisning
+I rundeoversigten vises kun den første kamp for et hold, hvis holdet har flere kampe samme dag. Detaljerede kampe kan stadig ses under Kampprogram. En enkeltstående kalenderkamp, der ellers ville danne en ny runde, lægges sammen med den foregående runde.

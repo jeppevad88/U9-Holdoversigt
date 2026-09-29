@@ -127,10 +127,40 @@ function buildRounds(){
     if(!groups.has(key)) groups.set(key,{key,explicitRound:m.explicitRound??null,matches:[]});
     groups.get(key).matches.push(m);
   }
-  const arr=[...groups.values()].sort((a,b)=>a.matches[0].sortTs-b.matches[0].sortTs);
+
+  let arr=[...groups.values()].sort((a,b)=>a.matches[0].sortTs-b.matches[0].sortTs);
+
+  // A single stray match should belong to the preceding round rather than
+  // creating its own one-match round. This also handles the situation where
+  // DanskHåndbold's calendar introduces one extra match between two rounds.
+  for(let i=1;i<arr.length;){
+    if(arr[i].matches.length===1){
+      arr[i-1].matches.push(...arr[i].matches);
+      arr[i-1].matches.sort((a,b)=>a.sortTs-b.sortTs);
+      arr.splice(i,1);
+    }else{
+      i++;
+    }
+  }
+
   rounds=arr.map((g,i)=>({...g,round:i+1}));
   // Write derived round number onto each match for display/statistics.
   rounds.forEach(r=>r.matches.forEach(m=>m.round=r.round));
+}
+
+function getRoundDisplayMatches(r){
+  // In the round overview, show only the first match for the same team on the
+  // same day. Hold 5 can have several tournament matches on one day, while
+  // the detailed Kampprogram still shows every match.
+  const seen=new Set();
+  return [...r.matches]
+    .sort((a,b)=>a.sortTs-b.sortTs || a.teamId.localeCompare(b.teamId))
+    .filter(m=>{
+      const key=`${m.teamId}|${m.dateISO}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 function getInitialRound(){
   if(!rounds.length)return null;
@@ -153,7 +183,8 @@ function renderRound(){
   $('#statsView').classList.add('hidden');$('#scheduleView').classList.add('hidden');$('#roundView').classList.remove('hidden');
   const r=currentRoundObj();
   if(!r){$('#roundView').innerHTML='<div class="notice error">Der er endnu ikke hentet et kampprogram. Synkroniseringen med DanskHåndbold skal sættes op i Supabase.</div>';return}
-  $('#roundView').innerHTML=`<div class="round-head"><div><h2>Runde ${r.round}</h2><p>${roundDateText(r)} · ${r.matches.length} Hjallerup-hold i kamp</p></div></div><div class="round-grid">${r.matches.map(renderTeamCard).join('')}</div>`;
+  const displayMatches=getRoundDisplayMatches(r);
+  $('#roundView').innerHTML=`<div class="round-head"><div><h2>Runde ${r.round}</h2><p>${roundDateText(r)} · ${displayMatches.length} Hjallerup-hold i kamp</p></div></div><div class="round-grid">${displayMatches.map(renderTeamCard).join('')}</div>`;
   attachTeamActions();
 }
 function renderTeamCard(m){
