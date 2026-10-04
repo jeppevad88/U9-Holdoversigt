@@ -40,3 +40,7 @@ Hvis DanskHåndbolds iCal-data indeholder et rundenummer i eventets tekst, bruge
 
 ### Rundevisning
 I rundeoversigten vises kun den første kamp for et hold, hvis holdet har flere kampe samme dag. Detaljerede kampe kan stadig ses under Kampprogram. En enkeltstående kalenderkamp, der ellers ville danne en ny runde, lægges sammen med den foregående runde.
+
+
+## Tidsformat
+Hjemmesiden viser kampens dato og klokkeslæt præcis som skrevet i DanskHåndbolds iCal-feed. Der foretages ingen UTC-/tidszonekonvertering. Kalenderens tekst er den eneste kilde til kamptidspunktet.
