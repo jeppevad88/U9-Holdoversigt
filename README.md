@@ -1,3 +1,7 @@
+## v6 – rettet dansk klokkeslæt
+
+DanskHåndbolds iCal `DTSTART` med `Z` behandles som UTC og konverteres til dansk tid (`Europe/Copenhagen`). Hjemmesiden viser dermed det lokale danske kamptidspunkt med korrekt sommer-/vintertid. Kalender-cache-nøglen er samtidig hævet til v3, så gamle tidspunkter ikke genbruges.
+
 # U9 Holdoversigt – Hjallerup IF
 
 Denne version er bygget som U11-værktøjet, men til Hjallerup IF U9 drenge.
