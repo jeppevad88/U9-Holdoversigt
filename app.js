@@ -97,7 +97,7 @@ function loadLocalState(){
 
 async function refreshSchedule(){
   try{
-    const response=await fetch(window.SUPABASE_CONFIG.icalFunctionUrl,{cache:'no-store'});
+    const response=await fetch(window.SUPABASE_CONFIG.icalFunctionUrl + '?v=4',{cache:'no-store'});
     if(!response.ok) throw new Error(`Kalendersynkronisering fejlede (${response.status})`);
     const data=await response.json();
     if(!data.matches?.length) throw new Error(data.errors?.length?data.errors.join(' · '):'Ingen kampe fundet i kalenderne');

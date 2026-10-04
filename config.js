@@ -10,7 +10,7 @@ window.APP_CONFIG = {
   maxPlayers: 7,
   stateTable: "u9_state",
   stateRowId: "main",
-  scheduleCacheKey: "u9-schedule-cache-v3",
+  scheduleCacheKey: "u9-schedule-cache-v4",
   scheduleRefreshMs: 10 * 60 * 1000,
   stateRefreshMs: 15 * 1000
 };
